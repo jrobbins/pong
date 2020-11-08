@@ -20,17 +20,25 @@ const paddleWidth = 20;
 const boardRect = board.getBoundingClientRect();
 
 
+function rotatePaddle1(delta) {
+  paddle1angle = Math.max(-0.25, Math.min(0.25, paddle1angle + delta));
+  paddle1.style.transform = "rotate(" + paddle1angle + "rad)";
+}
+
+function rotatePaddle2(delta) {
+  paddle2angle = Math.max(-0.25, Math.min(0.25, paddle2angle + delta));
+  paddle2.style.transform = "rotate(" + paddle2angle + "rad)";
+}
+
 document.addEventListener('keydown', idKey);
 
 function idKey(e) {
   // Player 1 uses WASD keys.                                                                                                                                          
   if (e.key == "d") {
-    paddle1angle = Math.min(0.25, paddle1angle + 0.02);
-    paddle1.style.transform = "rotate(" + paddle1angle + "rad)";
+    rotatePaddle1(0.02);
   }
   else if (e.key == "a") {
-    paddle1angle = Math.max(-0.25, paddle1angle - 0.02);
-    paddle1.style.transform = "rotate(" + paddle1angle + "rad)";
+    rotatePaddle1(-0.02);
   }
   else if (e.key == "w") {
     paddle1y = Math.max(boardRect.top + 5, paddle1y - 10);
@@ -42,12 +50,10 @@ function idKey(e) {
   }
   // Player 2 uses arrow keys                                                                                                                                          
   else if (e.code == "ArrowRight") {
-    paddle2angle = Math.min(0.25, paddle2angle + 0.02);
-    paddle2.style.transform = "rotate(" + paddle2angle + "rad)";
+    rotatePaddle2(0.02);
   }
   else if (e.code == "ArrowLeft") {
-    paddle2angle = Math.max(-0.25, paddle2angle - 0.02);
-    paddle2.style.transform = "rotate(" + paddle2angle + "rad)";
+    rotatePaddle2(-0.02);
   }
   else if (e.code == "ArrowUp") {
     paddle2y = Math.max(boardRect.top + 5, paddle2y - 10);
@@ -83,16 +89,18 @@ function moveBallLoop() {
 
   // Bounce off of each paddle                                                                                                                                         
   if (checkCollision(paddle1, newX, newY)) {
-    newBallRadians = Math.PI - ballRadians + (paddle1angle / 2);
+    newBallRadians = Math.PI - ballRadians + (paddle1angle * 2);
     ballSpeed = ballSpeed + 0.1;
     paddle1Height = Math.max(20, paddle1Height - 5);
     paddle1.style.height = paddle1Height + 'px';
+    rotatePaddle1(0.1 * ((newY - paddle1y - (paddle1Height/2)) / paddle1Height));
   }
   else if (checkCollision(paddle2, newX, newY)) {
-    newBallRadians = Math.PI - ballRadians + (paddle2angle / 2);
+    newBallRadians = Math.PI - ballRadians + (paddle2angle * 2);
     ballSpeed = ballSpeed + 0.1;
     paddle2Height = Math.max(20, paddle2Height - 5);
     paddle2.style.height = paddle2Height + 'px';
+    rotatePaddle2(-0.1 * ((newY - paddle2y - (paddle2Height/2)) / paddle2Height));
   }
 
   // Bounce off the walls of the board.                                                                                                                                
@@ -117,6 +125,7 @@ function moveBallLoop() {
   ball.style.left = newX + "px";
   ball.style.top = newY + "px";
 }
+
 
 setInterval(moveBallLoop, 25);
 
