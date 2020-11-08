@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>Jason's pong game</title>
+  <style>
+    div { position: absolute; transition: 0.025s linear; }
+    #board {
+        border: 4px solid #444;
+        top: 10px;
+        left: 10px;
+        width: 800px;
+        height: 600px;
+    }
+    #ball {
+        background: black;
+        width: 16px;
+        height: 16px;
+        top: 400px;
+        left: 300px;
+        border-radius: 50%;
+    }
+    .paddle {
+        background: blue;
+        width: 20px;
+        height: 140px;
+        border-radius: 8px;
+    }
+    #paddle1 { top: 100px; left: 20px; }
+    #paddle2 { top: 200px; left: 784px; }
+  </style>
+</head>
+<body>
+  <div id="board"></div>
+  <div id="ball"></div>
+  <div id="paddle1" class="paddle"></div>
+  <div id="paddle2" class="paddle"></div>
+
+  <script src="./pong.js"></script>
+</body>
+</html>
