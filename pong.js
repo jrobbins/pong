@@ -95,7 +95,7 @@ function moveBallLoop() {
     if (dx != 0) {
       ballRadians = Math.atan(dy / dx);
     }
-    let newBallRadians = ballRadians + Math.PI - paddle2angle;
+    let newBallRadians = ballRadians - paddle2angle;
     dx = -ballSpeed * Math.cos(newBallRadians);
     dy = ballSpeed * Math.sin(newBallRadians);
     newX = ballX + dx;
